@@ -1,0 +1,14 @@
+<header>
+    <h1>SCORE TABLE</h1>
+    <p>HERE IS THE LIST OF SCORES</p>
+
+    <a routerLink="/tap" routerLinkActive="active" class="purple-button">PLAY</a>
+    <span (click)="logout()" class="purple-button">LOGOUT</span>
+</header>
+
+<ul>
+    <li *ngFor="let score of scores">
+        {{ score.points }}pts
+        <span class="user">{{ score.user.firstName }} {{ score.user.lastName }} / {{ score.date }}</span>
+    </li>
+</ul>

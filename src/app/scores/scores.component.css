@@ -1,0 +1,23 @@
+ul {
+    width: 360px;
+    margin: auto;
+    margin-top: 40px;
+}
+
+li {
+    list-style: none;
+    border-bottom: #EEEEEE 1px dotted;
+    text-align: left;
+    height: 40px;
+    margin-top: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color: #606c76;
+    line-height: 40px;
+}
+
+li span {
+    float: right;
+    font-size: 0.6em;
+    font-weight: normal;
+}

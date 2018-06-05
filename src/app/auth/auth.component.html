@@ -1,0 +1,15 @@
+<header>
+    <h1>WELCOME ON <br><span>TAPBOARD</span></h1>
+    <p>LOGIN OR REGISTER TO START TAPPING</p>
+</header>
+
+<div class="forms">
+    <div>
+        <h2 (click)="toggleDisplayLogin()">LOGIN</h2>
+        <login [hidden]="!login"></login>
+    </div>
+    <div>
+        <h2 (click)="toggleDisplayRegister()">REGISTER</h2>
+        <register [hidden]="!register"></register>
+    </div>
+</div>

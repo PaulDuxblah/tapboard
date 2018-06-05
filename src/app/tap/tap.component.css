@@ -1,0 +1,10 @@
+img {
+    width: 80%;
+    max-width: 340px;
+}
+
+progress {
+    height: 30px;
+    width: 80%;
+    max-width: 340px;
+}

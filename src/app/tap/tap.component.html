@@ -1,0 +1,22 @@
+<header>
+    <h1>HELLO pualalaoauaushyashabsh</h1>
+    <p>YOU HAVE {{endMs/1000}} SECONDS TO TAP! READY? STEADY ? TAP!</p>
+
+    <a routerLink="/scores" routerLinkActive="active" class="purple-button">SCORES</a>
+    <span (click)="logout()" class="purple-button">LOGOUT</span>
+</header>
+
+<div>
+    <div>
+        <img 
+            alt="Bouton" 
+            src="assets/button/{{ imgFileName }}"
+            (mousedown)="isPressed()" 
+            (mouseup)="isNotPressed()"
+        />
+    </div>
+
+    <div>
+        <progress value="{{currentTime}}" min="0" max={{endMs}}></progress>
+    </div>
+</div>
