@@ -7,23 +7,41 @@ let User = require('../models/User');
 userRoutes.use(bodyParser.urlencoded({extended: true}));
 userRoutes.use(bodyParser.json());
 
-  console.log('route');
 // POST
 userRoutes.route('/add').post(function (req, res) {
   let user = new User(req.body);
-  console.log(user);
   user.save()
-    .then(game => {
-      res.status(200).json({'user': 'User added successfully'});
+    .then(user => {
+      res.status(200).json(user);
     })
     .catch(err => {
-      res.status(400).send("unable to save to database");
+      console.log(err);
+      switch (err.code) {
+        case 11000:
+          res.status(400).send("This email already exists");
+          break;
+        default:
+          res.status(400).send("unable to save to database");
+          break;
+      }
     });
+});
+
+// LOGIN
+userRoutes.route('/login').post(function (req, res) {
+  User.findOne({ email: req.body.email, password: req.body.password }, function (err, User){
+    if(err){
+      console.log('err');
+      console.log(err);
+    } else {
+      console.log('success');
+      res.json(User);
+    }
+  });
 });
 
 // GET
 userRoutes.route('/:id').get(function (req, res) {
-    console.log('get');
     User.findById(req.params.id, function (err, User){
       if(err){
         console.log('err');

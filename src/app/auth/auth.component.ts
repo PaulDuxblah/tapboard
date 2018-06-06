@@ -33,9 +33,6 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userservice.get('5b16cc496975cf1a4ce9ad4a').subscribe((user: User) => {
-      console.log(user);
-    });
   }
 
 }

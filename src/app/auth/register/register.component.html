@@ -1,33 +1,33 @@
-<form action="">
+<form [formGroup]="register">
     <h3>About you</h3>
 
     <div>
-        <label for="first-name">EMAIL</label>
-        <input name="first-name" type="text" />
+        <label for="first-name">FIRST NAME</label>
+        <input name="first-name" type="text" formControlName="firstName" #firstName />
     </div>
 
     <div>
-        <label for="last-name">PASSWORD</label>
-        <input name="last-name" type="text" />
+        <label for="last-name">LAST NAME</label>
+        <input name="last-name" type="text" formControlName="lastName" #lastName />
     </div>
 
     <h3>Login informations</h3>
 
     <div>
         <label for="email">EMAIL</label>
-        <input name="email" type="text" />
+        <input name="email" type="text" formControlName="email" #email />
     </div>
 
     <div>
         <label for="password">PASSWORD</label>
-        <input name="password" type="password" />
+        <input name="password" type="password" formControlName="password" #password />
     </div>
 
     <div>
-        <p><input name="conditions" type="checkbox" /> I accept the terms and conditions</p>
+        <p><input name="conditions" type="checkbox" formControlName="conditions" #conditions /> I accept the terms and conditions</p>
     </div>
 
     <div>
-        <input class="purple-button" type="submit" value="REGISTER" />
+        <button class="purple-button" (click)="registerUser(register.value.email, register.value.password, register.value.firstName, register.value.lastName, register.value.conditions)">REGISTER</button>
     </div>
 </form>

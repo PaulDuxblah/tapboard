@@ -10,13 +10,13 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  addUser(email, password, firstName, lastName) {
+  register(email, password, firstName, lastName, callback) {
     this.http.post(this.uri + 'add', {
       email: email,
       password: password, 
       firstName: firstName,
       lastName: lastName
-    }).subscribe(res => console.log('Done'));
+    }).subscribe(res => callback(res));
   }
 
   getAll() {
@@ -27,8 +27,11 @@ export class UserService {
     return this.http.get(this.uri + id);
   }
 
-  login(email, password) {
-    return this.http.get(this.uri + '/login');
+  login(email, password, callback) {
+    this.http.post(this.uri + 'login', {
+      email: email,
+      password: password
+    }).subscribe(res => callback(res));
   }
 
 }

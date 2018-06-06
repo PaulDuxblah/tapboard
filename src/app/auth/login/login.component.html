@@ -1,16 +1,16 @@
-<form action="">
+<form [formGroup]="login" novalidate>
     <div>
         <label for="email">EMAIL</label>
-        <input name="email" type="text" />
+        <input name="email" type="text" formControlName="email" #email />
     </div>
 
     <div>
         <label for="password">PASSWORD</label>
-        <input name="password" type="password" />
+        <input name="password" type="password" formControlName="password" #password />
     </div>
 
     <div>
-        <input class="purple-button" type="submit" value="LOGIN" />
+        <button class="purple-button" (click)="loginUser(login.value.email, login.value.password)">LOGIN</button>
         <a routerLink="/tap" routerLinkActive="active">PLAY</a>
     </div>
 </form>
