@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'register',
@@ -10,7 +11,7 @@ import { UserService } from '../../user.service';
 export class RegisterComponent implements OnInit {
   register: FormGroup;
 
-  constructor(private userservice: UserService, private fb: FormBuilder) {
+  constructor(private userservice: UserService, private fb: FormBuilder, private router: Router) {
     this.createForm();
   }
 
@@ -33,10 +34,8 @@ export class RegisterComponent implements OnInit {
     }
 
     const _this = this;
-    this.userservice.register(email, password, firstName, lastName, function(data) {
-      if (data === undefined) {
-        return false;
-      }
+    this.userservice.register(email, password, firstName, lastName, function(authResult) {
+      _this.router.navigate(['/tap']);
     });
   }
 

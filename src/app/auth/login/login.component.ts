@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import { UserService } from '../../user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -10,7 +11,7 @@ import { UserService } from '../../user.service';
 export class LoginComponent implements OnInit {
   login: FormGroup;
 
-  constructor(private userservice: UserService, private fb: FormBuilder) {
+  constructor(private userservice: UserService, private fb: FormBuilder, private router: Router) {
     this.createForm();
   }
 
@@ -25,13 +26,9 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(email, password) {
-    // let user;
+    const _this = this;
     this.userservice.login(email, password, function(data) {
-      if (data === undefined) {
-        return false;
-      }
-
-      data;
+      _this.router.navigate(['/tap']);
     });
   }
 }

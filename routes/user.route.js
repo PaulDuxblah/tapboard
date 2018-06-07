@@ -1,18 +1,43 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const userRoutes = express.Router();
+const jwt = require('jsonwebtoken');
+const fs = require("fs");
+const RSA_PRIVATE_KEY = fs.readFileSync('jwtRS256.key');
 
 let User = require('../models/User');
 
 userRoutes.use(bodyParser.urlencoded({extended: true}));
 userRoutes.use(bodyParser.json());
 
+function generateJWT(UserId) {
+  return jwt.sign({}, RSA_PRIVATE_KEY, {
+    algorithm: 'RS256',
+    expiresIn: 120,
+    subject: UserId
+  });
+}
+
+function getJWTObject(jwtBearerToken) {
+  return {
+    idToken: jwtBearerToken, 
+    expiresIn: 120
+  };
+}
+
+function userLogged(res, UserId) {
+    console.log('success');
+    const jwtBearerToken = generateJWT(UserId);
+    res.cookie("UserID", jwtBearerToken, {httpOnly:true, secure:true});
+    res.status(200).json(getJWTObject(jwtBearerToken));
+}
+
 // POST
 userRoutes.route('/add').post(function (req, res) {
   let user = new User(req.body);
   user.save()
     .then(user => {
-      res.status(200).json(user);
+      userLogged(res, user.id);
     })
     .catch(err => {
       console.log(err);
@@ -34,8 +59,7 @@ userRoutes.route('/login').post(function (req, res) {
       console.log('err');
       console.log(err);
     } else {
-      console.log('success');
-      res.json(User);
+      userLogged(res, User.id);
     }
   });
 });

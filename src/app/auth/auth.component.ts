@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../user.service';
-import User from '../../../models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth',
@@ -12,7 +12,11 @@ export class AuthComponent implements OnInit {
   login = true
   register = false
 
-  constructor(private userservice: UserService) { }
+  constructor(private userservice: UserService, private router: Router) {
+    if (this.userservice.isLoggedIn()) {
+      this.router.navigate(['/tap']);
+    }
+  }
 
   hideLogin() {
     this.login = false;

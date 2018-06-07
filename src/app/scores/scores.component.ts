@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../user/user';
+import { UserService } from '../user.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -11,10 +11,15 @@ import {Router} from '@angular/router';
 export class ScoresComponent implements OnInit {
   scores = [];
 
-  constructor() { }
+  constructor(private userservice: UserService, private router: Router) {
+    if (this.userservice.isLoggedOut()) {
+      this.router.navigate(['/']);
+    }
+  }
 
   logout() {
-    User.logout();
+    this.userservice.logout();
+    this.router.navigate(['/']);
   }
 
   ngOnInit() {
