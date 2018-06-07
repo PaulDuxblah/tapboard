@@ -11,19 +11,24 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAll() {
-    return this.http.get(this.uri);
+  getAll(callback) {
+    this.http.get(this.uri).subscribe((users) => {
+      callback(users);
+    });
   }
 
-  get(id) {
-    return this.http.get(this.uri + id);
+  get(id, callback) {
+    this.http.get(this.uri + id).subscribe((user) => {
+      callback(user);
+    });
   }
 
   setSession(authResult) {
     const expiresAt = moment().add(authResult.expiresIn,'second');
 
     localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+    localStorage.setItem('user', JSON.stringify(authResult.user));
+    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()) );
   }
 
   register(email, password, firstName, lastName, callback) {
@@ -61,8 +66,13 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('expires_at');
+  }
+
+  getUser() {
+    return JSON.parse(localStorage.getItem('user'));
   }
 
 }

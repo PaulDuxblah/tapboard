@@ -10,34 +10,40 @@ let User = require('../models/User');
 userRoutes.use(bodyParser.urlencoded({extended: true}));
 userRoutes.use(bodyParser.json());
 
-function generateJWT(UserId) {
+function generateJWT(userId) {
   return jwt.sign({}, RSA_PRIVATE_KEY, {
     algorithm: 'RS256',
     expiresIn: 120,
-    subject: UserId
+    subject: userId
   });
 }
 
-function getJWTObject(jwtBearerToken) {
+function getJWTObject(jwtBearerToken, user) {
   return {
     idToken: jwtBearerToken, 
+    user: {
+      _id: user._id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName
+    },
     expiresIn: 120
   };
 }
 
-function userLogged(res, UserId) {
+function userLogged(res, user) {
     console.log('success');
-    const jwtBearerToken = generateJWT(UserId);
+    const jwtBearerToken = generateJWT(user.id);
     res.cookie("UserID", jwtBearerToken, {httpOnly:true, secure:true});
-    res.status(200).json(getJWTObject(jwtBearerToken));
+    res.status(200).json(getJWTObject(jwtBearerToken, user));
 }
 
-// POST
+// REGISTER
 userRoutes.route('/add').post(function (req, res) {
   let user = new User(req.body);
   user.save()
     .then(user => {
-      userLogged(res, user.id);
+      userLogged(res, user);
     })
     .catch(err => {
       console.log(err);
@@ -54,33 +60,19 @@ userRoutes.route('/add').post(function (req, res) {
 
 // LOGIN
 userRoutes.route('/login').post(function (req, res) {
-  User.findOne({ email: req.body.email, password: req.body.password }, function (err, User){
+  User.findOne({ email: req.body.email, password: req.body.password }, function (err, User) {
     if(err){
       console.log('err');
       console.log(err);
     } else {
-      userLogged(res, User.id);
+      userLogged(res, User);
     }
   });
 });
 
-// GET
-userRoutes.route('/:id').get(function (req, res) {
-    User.findById(req.params.id, function (err, User){
-      if(err){
-        console.log('err');
-        console.log(err);
-      } else {
-        console.log('success');
-        res.json(User);
-      }
-    });
-});
-
 // GET ALL
 userRoutes.route('/').get(function (req, res) {
-  console.log('get');
-    User.find(function (err, Users){
+  User.find(function (err, Users){
     if(err){
       console.log('err');
       console.log(err);

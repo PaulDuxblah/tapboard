@@ -14,12 +14,14 @@ mongoose.connect(config.DB).then(
 );
 
 const userRoute = require('./routes/user.route');
+const scoreRoute = require('./routes/score.route');
 
 app.use(bodyParser.json());
 app.use(cors());
 var port = process.env.PORT || 4000;
 
 app.use('/users', userRoute);
+app.use('/scores', scoreRoute);
 
 var server = app.listen(port, function(){
     console.log('Listening on port ' + port);

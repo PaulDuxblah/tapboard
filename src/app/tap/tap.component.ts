@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../user.service';
+import { ScoreService } from '../score.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,11 +12,11 @@ import { Router } from '@angular/router';
 export class TapComponent implements OnInit {
   imgFileName = 'tapOff.png';
   score = 0;
-  endMs = 10000;
+  endMs = 1000;
   currentTime = 0;
   intervalMs = 20;
 
-  constructor(private userservice: UserService, private router: Router) {
+  constructor(private userservice: UserService, private scoreservice: ScoreService, private router: Router) {
     if (this.userservice.isLoggedOut()) {
       this.router.navigate(['/']);
     }
@@ -52,8 +53,10 @@ export class TapComponent implements OnInit {
   }
 
   end() {
-    console.log('end');
-    console.log(this.score);
+    const _this = this;
+    this.scoreservice.add(this.score, this.userservice.getUser(), function () {
+      _this.router.navigate(['/scores']);
+    });
   }
 
   ngOnInit() {

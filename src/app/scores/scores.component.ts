@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../user.service';
+import { ScoreService } from '../score.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -11,7 +12,7 @@ import {Router} from '@angular/router';
 export class ScoresComponent implements OnInit {
   scores = [];
 
-  constructor(private userservice: UserService, private router: Router) {
+  constructor(private userservice: UserService, private scoreservice: ScoreService, private router: Router) {
     if (this.userservice.isLoggedOut()) {
       this.router.navigate(['/']);
     }
@@ -23,6 +24,17 @@ export class ScoresComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getScores();
+  }
+
+  getScores() {
+    const _this = this;
+    this.scoreservice.getAll(function (scores) {
+      scores.forEach(function (score, key) {
+        scores[key].date = _this.scoreservice.dateToString(score.date);
+      })
+      _this.scores = scores;
+    });
   }
 
 }
