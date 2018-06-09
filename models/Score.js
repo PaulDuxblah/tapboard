@@ -3,14 +3,16 @@ const Schema = mongoose.Schema;
 
 let Score = new Schema({
     points: {
-        type: Number
+        type: Number,
+        required: true
     },
     date: {
         type: Date
     },
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 }, {
     collection: 'scores'

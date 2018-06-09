@@ -22,7 +22,7 @@ scoreRoutes.route('/add').post(function (req, res) {
 
 // GET ALL
 scoreRoutes.route('/').get(function (req, res) {
-  Score.find().populate('user', 'email firstName lastName').exec(function (err, Scores) {
+  Score.find().populate('user', 'email firstName lastName').sort({'date': -1}).exec(function (err, Scores) {
     if(err){
       console.log('err');
       console.log(err);
