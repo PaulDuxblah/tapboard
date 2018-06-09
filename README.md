@@ -24,7 +24,7 @@ If the user is authenticated, he cannot go to the homepage and is by default red
 
 ## Homepage
 
-On the homepage, he can either login or register its account. 
+On the homepage, the user can either login or register its account. 
 
 ### Login
 
