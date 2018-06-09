@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UserService } from '../user.service';
-import { ScoreService } from '../score.service';
+import { UserService } from '../services/user.service';
+import { ScoreService } from '../services/score.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class TapComponent implements OnInit {
   imgFileName = 'tapOff.png';
   score = 0;
-  endMs = 1000;
+  endMs = 10000;
   currentTime = 0;
   intervalMs = 20;
 

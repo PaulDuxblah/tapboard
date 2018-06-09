@@ -40,6 +40,8 @@ export class UserService {
     }).subscribe((authResult) => {
       this.setSession(authResult);
       callback(authResult);
+    }, (error) => {
+      callback(error);
     });
   }
 
@@ -50,6 +52,8 @@ export class UserService {
     }).subscribe((authResult) => {
       this.setSession(authResult);
       callback(authResult);
+    }, (error) => {
+      callback(error);
     });
   }
 

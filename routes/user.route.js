@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const fs = require("fs");
 const RSA_PRIVATE_KEY = fs.readFileSync('jwtRS256.key');
 
+const bcrypt = require('bcrypt');
+const salt = '$2b$10$6cSuxx4.Eg8ygwNNM1nkBu';
+
 let User = require('../models/User');
 
 userRoutes.use(bodyParser.urlencoded({extended: true}));
@@ -40,7 +43,9 @@ function userLogged(res, user) {
 
 // REGISTER
 userRoutes.route('/add').post(function (req, res) {
+  req.body.password = bcrypt.hashSync(req.body.password, salt);
   let user = new User(req.body);
+
   user.save()
     .then(user => {
       userLogged(res, user);
@@ -60,13 +65,19 @@ userRoutes.route('/add').post(function (req, res) {
 
 // LOGIN
 userRoutes.route('/login').post(function (req, res) {
-  User.findOne({ email: req.body.email, password: req.body.password }, function (err, User) {
+  User.findOne({ email: req.body.email, password: bcrypt.hashSync(req.body.password, salt) }, function (err, User) {
     if(err){
       console.log('err');
       console.log(err);
-    } else {
-      userLogged(res, User);
+      return;
     }
+
+    if (User === null) {
+      res.status(400).json('Incorrect email / password combinaison');
+      return;
+    }
+
+    userLogged(res, User);
   });
 });
 

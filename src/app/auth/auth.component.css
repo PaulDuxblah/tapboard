@@ -48,6 +48,13 @@
     margin: 10px 0;
 }
 
+/deep/ form .error {
+    font-family: 'Roboto', sans-serif;
+    display: inline-block;
+    color: red;
+    padding: 12px;
+}
+
 /deep/ label {
     display: run-in;
     font-family: 'Roboto', sans-serif;

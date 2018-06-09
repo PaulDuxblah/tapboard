@@ -29,5 +29,7 @@
 
     <div>
         <button class="purple-button" (click)="registerUser(register.value.email, register.value.password, register.value.firstName, register.value.lastName, register.value.conditions)">REGISTER</button>
+
+        <span class="error">{{ error }}</span>
     </div>
 </form>

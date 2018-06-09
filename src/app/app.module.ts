@@ -11,7 +11,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { TapComponent } from './tap/tap.component';
 import { ScoresComponent } from './scores/scores.component';
 
-import { UserService } from './user.service';
+import { UserService } from './services/user.service';
+import { ScoreService } from './services/score.service';
 
 const appRoutes: Routes = [
   { path: '', component: AuthComponent },
@@ -37,7 +38,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     ReactiveFormsModule 
   ],
-  providers: [ UserService ],
+  providers: [ UserService, ScoreService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

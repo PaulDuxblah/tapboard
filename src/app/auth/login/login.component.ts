@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
-import { UserService } from '../../user.service';
+import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   login: FormGroup;
+  error;
 
   constructor(private userservice: UserService, private fb: FormBuilder, private router: Router) {
     this.createForm();
@@ -28,6 +29,11 @@ export class LoginComponent implements OnInit {
   loginUser(email, password) {
     const _this = this;
     this.userservice.login(email, password, function(data) {
+      if (data.error) {
+        _this.error = data.error;
+        return;
+      }
+
       _this.router.navigate(['/tap']);
     });
   }
